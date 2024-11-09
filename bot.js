@@ -1,13 +1,8 @@
 const { Client, Intents } = require('discord.js');
-const SpacebarClient = require('@spacebar/client');
+const axios = require('axios');
 require('dotenv').config();
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
-const spacebarClient = new SpacebarClient({
-    apiBaseURL: process.env.SPACEBAR_API,
-    cdnBaseURL: process.env.SPACEBAR_CDN,
-    gatewayBaseURL: process.env.SPACEBAR_GATEWAY
-});
 
 client.once('ready', () => {
     console.log('Bot is online!');
@@ -16,6 +11,14 @@ client.once('ready', () => {
 client.on('messageCreate', async message => {
     if (message.content.toLowerCase() === 'welcome') {
         message.channel.send('Welcome to Canary Chat');
+        
+        // Example API call to your Spacebar instance
+        try {
+            const response = await axios.get(`${process.env.SPACEBAR_API}/some-endpoint`);
+            console.log('API response:', response.data);
+        } catch (error) {
+            console.error('Error calling API:', error);
+        }
     }
 });
 
