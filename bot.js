@@ -1,25 +1,38 @@
-const { Client, Intents } = require('discord.js');
 const axios = require('axios');
 require('dotenv').config();
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+const SPACEBAR_API_URL = process.env.SPACEBAR_API;
+const SPACEBAR_TOKEN = process.env.SPACEBAR_TOKEN; // Your bot token for Spacebar
 
-client.once('ready', () => {
-    console.log('Bot is online!');
-});
-
-client.on('messageCreate', async message => {
-    if (message.content.toLowerCase() === 'welcome') {
-        message.channel.send('Welcome to Canary Chat');
-        
-        // Example API call to your Spacebar instance
+async function respondToWelcome(message) {
+    if (message.toLowerCase().includes('welcome')) {
+        const responseMessage = 'Welcome to Canary Chat';
         try {
-            const response = await axios.get(`${process.env.SPACEBAR_API}/some-endpoint`);
-            console.log('API response:', response.data);
+            await axios.post(`${SPACEBAR_API_URL}/messages`, {
+                content: responseMessage,
+                token: SPACEBAR_TOKEN
+            });
         } catch (error) {
-            console.error('Error calling API:', error);
+            console.error('Error sending message:', error);
         }
     }
-});
+}
 
-client.login(process.env.DISCORD_TOKEN);
+// Example function to listen to messages (implementation may vary based on Spacebar API)
+async function listenToMessages() {
+    try {
+        const response = await axios.get(`${SPACEBAR_API_URL}/messages`, {
+            headers: { Authorization: `Bearer ${SPACEBAR_TOKEN}` }
+        });
+        const messages = response.data;
+
+        messages.forEach(message => {
+            respondToWelcome(message.content);
+        });
+    } catch (error) {
+        console.error('Error fetching messages:', error);
+    }
+}
+
+// Poll for new messages every 5 seconds
+setInterval(listenToMessages, 5000);
