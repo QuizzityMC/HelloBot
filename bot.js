@@ -1,5 +1,7 @@
 require('dotenv').config();
-const { Client, Intents } = require('discord.js');
+const { Client, GatewayIntentBits } = require('discord.js');
+
+console.log('Starting bot...');
 
 // Configuration object
 const config = {
@@ -10,8 +12,10 @@ const config = {
     cdn: 'https://chat.quizzity.tech/cdn'
 };
 
+console.log('Configuration loaded');
+
 const client = new Client({ 
-    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS],
+    intents: [GatewayIntentBits.GUILDS, GatewayIntentBits.GUILD_MEMBERS],
     http: {
         api: config.apiEndpoint,
         cdn: config.cdn
@@ -24,6 +28,8 @@ const client = new Client({
     }
 });
 
+console.log('Client initialized');
+
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
@@ -35,4 +41,7 @@ client.on('guildMemberAdd', member => {
     }
 });
 
-client.login(config.token);
+console.log('Logging in...');
+client.login(config.token).then(() => {
+    console.log('Logged in successfully.');
+}).catch(console.error);
