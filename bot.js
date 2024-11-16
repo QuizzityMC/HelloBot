@@ -98,7 +98,7 @@ client.on('interactionCreate', async interaction => {
     } else if (commandName === 'join') {
         await interaction.reply("Join Canary Chat: https://canarychat.me/");
     } else if (commandName === 'rules') {
-        await interaction.reply("Here are the server rules: [Your Server Rules Here]");
+        await interaction.reply("**Rules**:\n\nYou must follow each of these rules unless stated otherwise.\n\n1. Do not send any NSFW artwork, videos, or websites!\n2. NO EXCESSIVE SWEARING\n3. Do not complain to admins, mods, or helpers. They have the final say in punishments.\n4. No words that mean bad things.\n5. Do not insult others with racial slurs or other offensive language (cursing is allowed as long as it's not against someone).\n6. Do not advertise any products (websites allowed) unless given permission from an admin. (There is a role available to trusted people.)\n7. Do not try to scam or trick users into installing malware, viruses, or any malicious files or apps. (Permanent ban without hesitation)");
     } else if (commandName === 'help') {
         await interaction.reply("Available commands: /info, /join, /rules, /help, /ping, /report, /schedule, /feedback");
     } else if (commandName === 'ping') {
