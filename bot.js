@@ -1,8 +1,9 @@
+require('dotenv').config();
 const { Client, Intents } = require('discord.js');
 
 // Configuration object
 const config = {
-    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEzMDQ2Njc5MTIyMjg5NjE1NTYiLCJpYXQiOjE3MzExMjc0NzN9.bgtrPihvo7gqWNNC1fhS4XTEJjF_ez40USm4TxOLXNY', // Replace with your bot's token
+    token: process.env.BOT_TOKEN, // Use environment variables for sensitive data
     welcomeChannelId: '1299656965785441315', // Replace with your channel ID
     apiEndpoint: 'https://chat.quizzity.tech/api',
     gateway: 'wss://chat.quizzity.tech',
