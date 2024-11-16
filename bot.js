@@ -1,38 +1,37 @@
-const axios = require('axios');
-require('dotenv').config();
+const { Client, GatewayIntentBits } = require('discord.js');
 
-const SPACEBAR_API_URL = process.env.SPACEBAR_API;
-const SPACEBAR_TOKEN = process.env.SPACEBAR_TOKEN; // Your bot token for Spacebar
+// Configuration object
+const config = {
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEzMDQ2Njc5MTIyMjg5NjE1NTYiLCJpYXQiOjE3MzExMjc0NzN9.bgtrPihvo7gqWNNC1fhS4XTEJjF_ez40USm4TxOLXNY', // Replace with your bot's token
+    welcomeChannelId: '1299656965785441315', 
+    apiEndpoint: 'https://chat.quizzity.tech/api',
+    gateway: 'wss://chat.quizzity.tech',
+    cdn: 'https://chat.quizzity.tech/cdn'
+};
 
-async function respondToWelcome(message) {
-    if (message.toLowerCase().includes('welcome')) {
-        const responseMessage = 'Welcome to Canary Chat';
-        try {
-            await axios.post(`${SPACEBAR_API_URL}/messages`, {
-                content: responseMessage,
-                token: SPACEBAR_TOKEN
-            });
-        } catch (error) {
-            console.error('Error sending message:', error);
-        }
+const client = new Client({ 
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers],
+    http: {
+        api: config.apiEndpoint,
+        cdn: config.cdn
+    },
+    ws: {
+        properties: {
+            $browser: "Discord Android",
+        },
+        url: config.gateway
     }
-}
+});
 
-// Example function to listen to messages (implementation may vary based on Spacebar API)
-async function listenToMessages() {
-    try {
-        const response = await axios.get(`${SPACEBAR_API_URL}/messages`, {
-            headers: { Authorization: `Bearer ${SPACEBAR_TOKEN}` }
-        });
-        const messages = response.data;
+client.on('ready', () => {
+    console.log(`Logged in as ${client.user.tag}!`);
+});
 
-        messages.forEach(message => {
-            respondToWelcome(message.content);
-        });
-    } catch (error) {
-        console.error('Error fetching messages:', error);
+client.on('guildMemberAdd', member => {
+    const channel = member.guild.channels.cache.get(config.welcomeChannelId);
+    if (channel) {
+        channel.send(`Welcome to the server, ${member}!`);
     }
-}
+});
 
-// Poll for new messages every 5 seconds
-setInterval(listenToMessages, 5000);
+client.login(config.token);
