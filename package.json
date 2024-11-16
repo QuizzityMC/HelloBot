@@ -1,12 +1,12 @@
 {
-  "name": "discord-bot",
+  "name": "canary-bot",
   "version": "1.0.0",
-  "description": "A simple Discord bot for Spacebar instance",
+  "description": "A simple Canary Chat welcoming Bot",
   "main": "bot.js",
   "scripts": {
     "start": "node bot.js"
   },
-  "author": "YourName",
+  "author": "QuizzityMC",
   "license": "ISC",
   "dependencies": {
     "discord.js": "^13.0.0",
