@@ -1,16 +1,16 @@
-const { Client, GatewayIntentBits } = require('discord.js');
+const { Client, Intents } = require('discord.js');
 
 // Configuration object
 const config = {
     token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEzMDQ2Njc5MTIyMjg5NjE1NTYiLCJpYXQiOjE3MzExMjc0NzN9.bgtrPihvo7gqWNNC1fhS4XTEJjF_ez40USm4TxOLXNY', // Replace with your bot's token
-    welcomeChannelId: '1299656965785441315', 
+    welcomeChannelId: '1299656965785441315', // Replace with your channel ID
     apiEndpoint: 'https://chat.quizzity.tech/api',
     gateway: 'wss://chat.quizzity.tech',
     cdn: 'https://chat.quizzity.tech/cdn'
 };
 
 const client = new Client({ 
-    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers],
+    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS],
     http: {
         api: config.apiEndpoint,
         cdn: config.cdn
